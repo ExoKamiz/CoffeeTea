@@ -1,5 +1,6 @@
 ﻿using CoffeeTea.Data;
 using CoffeeTea.Models;
+using CoffeeTea.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,80 +18,26 @@ namespace CoffeeTea.Controllers
         }
 
         // GET: ProductController
-        public ActionResult Index()
+        public IActionResult Index()
         {
-            IEnumerable<Product> objList = _db.Products;
-            return View(objList);
-        }
-
-
-        // GET: ProductController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: ProductController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ProductController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            ProductVM productVM = new ProductVM()
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+                Products = _db.Products.Include(u => u.Categories),
+                Categories = _db.Categories
+            };
+            return View(productVM);
         }
 
-        // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Details(int id)
         {
-            return View();
-        }
+            DetailsVM detailsVM = new DetailsVM
+            {
+                Product = _db.Products.Include(u => u.Categories)      
+                .Where(u => u.Id == id).FirstOrDefault()     
+                       
+            };
 
-        // POST: ProductController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ProductController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(detailsVM);
         }
     }
 }

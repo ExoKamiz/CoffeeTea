@@ -23,7 +23,8 @@ namespace CoffeeTea.Models
 
         public string Country { get; set; }
 
-        public ICollection<Category> Categories { get; set; }
+        public int CategoryId { get; set; }
+        public Category Categories { get; set; }
 
 
     }

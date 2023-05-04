@@ -1,23 +1,42 @@
-﻿
+﻿@using System.Globalization;
 @model CoffeeTea.Models.Product
 
+@{
+    Dictionary<string, string> categoryColors = new Dictionary<string, string>
+    {
+        {"Coffee", "#D2B48C"},
+        {"Sweets", "#FFC9C9"},
+        {"Tea", "#C8D6B9"},
+    };
+    string categoryColor = categoryColors.ContainsKey(Model.Categories.Name) ? categoryColors[Model.Categories.Name] : "#B2CCE7";
+}
+
+<head>
+    <link rel="stylesheet" href="~/css/button.css" asp-append-version="true" />
+</head>
 <div class="col-lg-4 col-md-6 pb-4 filter @Model.Categories.Name.Replace(' ','_')">
-    <div class="card bg-white rounded shadow-sm" style="border:1px solid #222">
+    <div class="card bg-white rounded shadow-sm" style="border:1px solid #222;height:600px;padding: 0 15px;">
         <div class="card-body px-3 pt-3 pb-1 row">
-            <div class="col-7"><label class="float-left">@Model.Name</label></div>
-            <div class="col-5"><label class="float-right"><span class="text-info h5">@string.Format("{0:c0}",Model.Price)</span> / sqft</label> </div>  @*добавили форматирование с валютой*@
-        </div>
-        <img class="card-img-top img-fluid d-block mx-auto mb-3" src="@Model.Image" alt="Card image cap">
-        <div class="card-body p-1 px-3 row">
-            <div class="col-6">
-                <span class="badge p-2 border w-100" style="background-color:lavenderblush">@Model.Categories.Name</span>
+            <div class="col-12" style="display:flex;justify-content:space-between;position:relative">
+                <a asp-action="Details" asp-route-id="@Model.Id" class="button-55" style="padding: 10px 40px;">Деталі</a>
+                <label class="button-55" style="background-color: #A4D0A4">@string.Format(new CultureInfo("uk-UA"),"{0:C0}",Model.Price)</label>
             </div>
-            <div class="col-12 pt-2" style="font-size:13px; text-align:justify">
-                <p> @Model.ShortDescr</p>
+            <img class="card-img-top img-fluid d-block mx-auto mb-3 mt-3" src="@Model.Image" alt="Card image cap" style="height:300px;width:300px;object-fit:cover;">
+            <div style="font-size: 18px; text-align: justify; border-left: 7px solid #0091AD; padding-left: 10px; line-height: normal; font-family: 'Open Sans', sans-serif; color: #555;">
+                <div class="col-12">
+                    <label>@Model.Name</label>
+                </div>
+                <div class="col-12 pt-2">
+                    <p>@Model.ShortDescr</p>
+                    @*<p>
+                        <span class="badge p-1 border" style="background-color:@categoryColor; position: absolute; bottom: 0; left: 4; font-size: 15px; margin-bottom: 15px;">@Model.Categories.Name</span>
+                    </p>*@
+                </div>
             </div>
-            <div class="col-12 p-1">
-                <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-dark form-control btn-sm p-2" style="height:40px">View Details</a>
-            </div>
+           
+            <span></span>
+          
+
         </div>
     </div>
 </div>

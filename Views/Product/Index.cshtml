@@ -1,13 +1,14 @@
 ﻿@model CoffeeTea.Models.ViewModels.ProductVM
 
+<head>
+    <link rel="stylesheet" href="~/css/categories.css" asp-append-version="true" />
+</head>
 <div class="container">
     <div class="text-center">
-        @*выделяем All темным цветом; data-filter для фильтрации данных*@
-        <button class="btn-dark filter-button" data-filter="all">All</button>
-        @*выводим все категории*@
+        <button class="button-18" style="margin-right: 30px; --s: .70em;  --b: 4px; font-size: 20px;" data-filter="all">All</button>
         @foreach (var obj in Model.Categories)
         {
-            <button class="btn btn-outline-secondary filter-button" data-filter="@obj.Name.Replace(' ','_')">
+            <button class="button-18" data-filter="@obj.Name.Replace(' ','_')">
                 @obj.Name
             </button>
         }
@@ -16,18 +17,16 @@
     <div class="row">
         @foreach (var prod in Model.Products)
         {
-            <partial name="_IndividualProductCard" model="prod" />      @*добавили ссылку на частичное представление и модель*@
-            //display all products
+            <partial name="_IndividualProductCard" model="prod" />      
         }
     </div>
 </div>
 
 @section Scripts{
     <script>
-        //добавляем скрипт JQuery для использования фильтра и перехождения по нажатию на выбранную категорию
         $(document).ready(function () {
 
-            $(".filter-button").click(function () {
+            $(".button-89").click(function () {
 
                 var value = $(this).attr('data-filter');
                 if (value == "all") {

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CoffeeTea.Models
 {
@@ -19,13 +20,12 @@ namespace CoffeeTea.Models
         [Range(1, int.MaxValue)]
         public double Price { get; set; }
 
-        public string Image { get; set; }
-
         public string Country { get; set; }
 
         public int CategoryId { get; set; }
         public Category Categories { get; set; }
 
+        public virtual ICollection<Image>? Images { get; set; }
 
     }
 }
